@@ -16,6 +16,7 @@ This documentation is broken into the following sections:
    ros
    computer_vision
    sonar
+   teensy
    controller
 
 Getting Started
@@ -52,6 +53,10 @@ This section goes into detail about the computer vision. We use `OpenCV <https:/
 Sonar
 -----
 This section describes our use of sonar. We use bluerobotics `ping-protocol <https://github.com/bluerobotics/ping-cpp>`_
+
+Teensy
+------
+This section details our movement control system. We have 8 thrusters connected to a teensy. The teensy is connected to the jetson via serial.
 
 Controller
 ----------
