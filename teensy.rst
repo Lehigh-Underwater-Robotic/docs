@@ -44,6 +44,7 @@ In arduino ide, open teensy.ino and compile/upload.
 Thruster config
 ---------------
 This is the configuration we use. It is based on the `ArduSub Vectored ROV w/ Four Vertical Thrusters.<https://www.ardusub.com/introduction/features.html>`_
+
 .. image:: images/vectored6dof-frame.png
   :width: 400
   :alt: Config Image
@@ -90,7 +91,7 @@ Code reference
 --------------
 The following are all the objects that are implemented and their associated methods.
 
-.. code-block::
+.. code-block:: c++
   
   struct Motors {
     bool  armed;
