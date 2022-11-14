@@ -20,11 +20,16 @@ Arduino library
 
 The following objects are implemented
 
-* Sub     - Main control. Handles all other objects.
-* Jetson  - Serial communication interface with Jetson.
-* Motors  - Contains 8 servo objects that are the motors
-* Sonar   - Parsing and controls for ping sonar
-* IMU     - Inertial measurement unit data handling
+* Sub
+    Main control. Handles all other objects.
+* Jetson
+    Serial communication interface with Jetson.
+* Motors
+    Contains 8 servo objects that are the motors
+* Sonar
+    Parsing and controls for ping sonar
+* IMU
+    Inertial measurement unit data handling
 
 Building
 ~~~~~~~~
@@ -113,19 +118,18 @@ Common format
   -----------------------------------------
   |  n+1 |  uint8_t  | checksum  |  any   |
   -----------------------------------------
-  |  n+2 |  uint8_t  |  footer   |  0xff  |
-  -----------------------------------------
    
-  2 <= n <= 253
+  2 <= n <= 254
+
+Checksum
+~~~~~~~~
+The checksum is calculated as the 2's complement of the sum of all bytes.
+See `here <https://en.wikipedia.org//wiki/Intel_HEX>`_ for more info
 
 Data specification
 ~~~~~~~~~~~~~~~~~~
 
-ok
-
-.. code-block::
-
-  NONE
+ok - NONE
 
 error
 
@@ -137,17 +141,9 @@ error
   |   0  |  uint8_t  |   type    |  0-255 |
   -----------------------------------------
 
-disarm
+disarm - NONE
 
-.. code-block::
-
-  NONE
-
-arm
-
-.. code-block::
-
-  NONE
+arm - NONE
 
 set_mode
 
@@ -159,13 +155,9 @@ set_mode
   |   0  |  uint8_t  |   mode    |  0-255 |
   -----------------------------------------
 
-get_mode
+get_mode - NONE
 
-.. code-block::
-
-  NONE
-
-set_mode
+manual_control
 
 .. code-block::
 
@@ -174,22 +166,18 @@ set_mode
   ------------------------------------------
   |   0  |  int8_t  |     x     | -100-100 |
   ------------------------------------------
-  |   0  |  int8_t  |     y     | -100-100 |
+  |   1  |  int8_t  |     y     | -100-100 |
   ------------------------------------------
-  |   0  |  int8_t  |     z     | -100-100 |
+  |   2  |  int8_t  |     z     | -100-100 |
   ------------------------------------------
-  |   0  |  int8_t  |    roll   | -100-100 |
+  |   3  |  int8_t  |    roll   | -100-100 |
   ------------------------------------------
-  |   0  |  int8_t  |    pitch  | -100-100 |
+  |   4  |  int8_t  |    pitch  | -100-100 |
   ------------------------------------------
-  |   0  |  int8_t  |    yaw    | -100-100 |
+  |   5  |  int8_t  |    yaw    | -100-100 |
   -------------------------------------------
 
-thruster_test
-
-.. code-block::
-
-  NONE
+thruster_test - NONE
 
 Thruster config
 ---------------
@@ -248,6 +236,9 @@ Code reference
 --------------
 The following are all the objects that are implemented and their associated methods.
 
+Motors
+~~~~~~
+
 .. code-block:: c++
   
   struct Motors {
@@ -264,12 +255,22 @@ The following are all the objects that are implemented and their associated meth
     bool manual_control(int x, int y, int z, int roll, int pitch, int yaw);
   };
 
+Sonar
+~~~~~
+
+.. code-block:: c++
+
   struct Sonar {
     Ping1D         device;
     SoftwareSerial ping_serial;
     Sonar();
     bool init();
   };
+
+IMU
+~~~
+
+.. code-block:: c++
 
   struct IMU {
     Adafruit_BNO055 device;
@@ -278,12 +279,22 @@ The following are all the objects that are implemented and their associated meth
     uint8_t get_temp();
   };
 
+Jetson
+~~~~~~
+
+.. code-block:: c++
+
   struct Jetson {
     Jetson();
     bool init();
     bool send();
     bool receive();
   };
+
+Sub
+~~~
+
+.. code-block:: c++
 
   struct Sub {
     Mode  mode;
