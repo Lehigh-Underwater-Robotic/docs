@@ -7,8 +7,13 @@ Teensy
 
 Arduino library
 ===============
-.. _hey:
-.. _next:
+.. code-block::
+
+  Directory structure:
+  lur
+  ├── lur.cpp
+  ├── lur.h
+  └── messages.h
 
 Serial communication
 --------------------

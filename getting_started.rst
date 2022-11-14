@@ -9,7 +9,7 @@ Directory Structure
 -------------------
 .. code-block::
 
-   $ tree .
+  $ tree .
 
 
 Software Used
