@@ -6,7 +6,7 @@ Teensy
 .. _Thruster config:
 
 Arduino library
----------------
+===============
 .. _hey:
 .. _next:
 
