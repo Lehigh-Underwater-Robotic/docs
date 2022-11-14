@@ -2,7 +2,6 @@ Teensy
 ======
 
 .. _Arduino library:
-.. _Building:
 .. _Message protocol:
 .. _Thruster config:
 .. _Code reference:
@@ -20,6 +19,7 @@ Arduino library
   └── messages.h
 
 The following objects are implemented
+
 * Sub     - Main control. Handles all other objects.
 * Jetson  - Serial communication interface with Jetson.
 * Motors  - Contains 8 servo objects that are the motors
@@ -27,7 +27,7 @@ The following objects are implemented
 * IMU     - Inertial measurement unit data handling
 
 Building
---------
+~~~~~~~~
 Copy lur directory to arduino library directory on your computer
 
 .. code-block::
@@ -51,6 +51,7 @@ Message format is defined in messages.h and contains several pieces.
 A message id identifies the type of message being recieved
 
 .. code-block::
+
   enum class ID: uint8_t {
     ok,
     error,
@@ -65,6 +66,7 @@ A message id identifies the type of message being recieved
 Errors types are defined as follows
 
 .. code-block::
+
   enum class ERROR: uint8_t {
     invalid,
     parse,
@@ -81,11 +83,25 @@ Errors types are defined as follows
 * disarmed
     drone is disarmed and unable to process command
 
+The drone can be put in one of the following modes
+
+.. code-block:: c++
+
+  enum Mode {
+    disarmed,
+    armed,
+    stabilize,
+    manual,
+    depth_hold,
+    position_hold,
+  };
 
 
-Message format looks like this
+Common format
+~~~~~~~~~~~~~
 
 .. code-block::
+
   -----------------------------------------
   | byte |   type    |   name    | values |
   -----------------------------------------
@@ -102,25 +118,78 @@ Message format looks like this
    
   2 <= n <= 253
 
-Data specifications are as follows
+Data specification
+~~~~~~~~~~~~~~~~~~
 
-Ok
-
-.. code-block::
-  -----------------------------------------
-  | byte |   type    |   name    | values |
-  -----------------------------------------
-  ------------------NONE-------------------
-  -----------------------------------------
-
-Error
+ok
 
 .. code-block::
+
+  NONE
+
+error
+
+.. code-block::
+
   -----------------------------------------
   | byte |   type    |   name    | values |
   -----------------------------------------
   |   0  |  uint8_t  |   type    |  0-255 |
   -----------------------------------------
+
+disarm
+
+.. code-block::
+
+  NONE
+
+arm
+
+.. code-block::
+
+  NONE
+
+set_mode
+
+.. code-block::
+
+  -----------------------------------------
+  | byte |   type    |   name    | values |
+  -----------------------------------------
+  |   0  |  uint8_t  |   mode    |  0-255 |
+  -----------------------------------------
+
+get_mode
+
+.. code-block::
+
+  NONE
+
+set_mode
+
+.. code-block::
+
+  -----------------------------------------
+  | byte |   type    |   name    | values |
+  -----------------------------------------
+  |   0  |  uint8_t  |     x     |  0-100 |
+  -----------------------------------------
+  |   0  |  uint8_t  |     y     |  0-100 |
+  -----------------------------------------
+  |   0  |  uint8_t  |     z     |  0-100 |
+  -----------------------------------------
+  |   0  |  uint8_t  |    roll   |  0-100 |
+  -----------------------------------------
+  |   0  |  uint8_t  |    pitch  |  0-100 |
+  -----------------------------------------
+  |   0  |  uint8_t  |    yaw    |  0-100 |
+  -----------------------------------------
+
+thruster_test
+
+.. code-block::
+
+  NONE
 
 Thruster config
 ---------------
@@ -136,13 +205,21 @@ The columns are the individual thrusters, while the rows are the directions.
 
 .. code-block::
 
-  -------1  2  3  4  5  6  7  8
-  x     |
-  y     |
-  z     |
-  roll  |
-  pitch |
-  yaw   |
+  -----------------------------------------
+  |       | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+  |----------------------------------------
+  |   x   |
+  |--------
+  |   y   |
+  |--------
+  |   z   |
+  |--------
+  | roll  |
+  |--------
+  | pitch |
+  |--------
+  |  yaw  |
+  ---------
 
   const float thruster_config[6][8] = {
     {  1.0,  1.0, -1.0, -1.0,  0.0,  0.0,  0.0,  0.0  },
@@ -156,7 +233,7 @@ The columns are the individual thrusters, while the rows are the directions.
 To calculate the power value for thruster 5 going in the z direction (ascend/descend) at a power value p, we multiply p by the value in the 3rd row, 5th column.
 
 Calibrating
------------
+~~~~~~~~~~~
 Calibrating the thruster values requires running tests in the water.
 
 Working in one direction at a time, run several tests in that direction and monitor the results. After observing the movement of the drone, go through each thruster and adjust the value in the matrix according to the needed relative power of the thruster.
