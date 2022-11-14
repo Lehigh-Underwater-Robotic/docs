@@ -3,6 +3,7 @@ Teensy
 
 .. _Arduino library:
 .. _Building:
+.. _Message protocol:
 .. _Thruster config:
 .. _Code reference:
 
@@ -41,9 +42,89 @@ Copy lur directory to arduino library directory on your computer
 
 In arduino ide, open teensy.ino and compile/upload.
 
+Message protocol
+----------------
+The Teensy and the Jetson talk through a usb serial connection.
+
+Message format is defined in messages.h and contains several pieces.
+
+A message id identifies the type of message being recieved
+
+.. code-block::
+  enum class ID: uint8_t {
+    ok,
+    error,
+    disarm,
+    arm,
+    set_mode,
+    get_mode,
+    manual_control,
+    thruster_test,
+  };
+
+Errors types are defined as follows
+
+.. code-block::
+  enum class ERROR: uint8_t {
+    invalid,
+    parse,
+    checksum,
+    disarmed,
+  };
+
+* invalid
+    given message id isn't a valid type
+* parse
+    failed to parse message
+* checksum
+    checksum check failed
+* disarmed
+    drone is disarmed and unable to process command
+
+
+
+Message format looks like this
+
+.. code-block::
+  -----------------------------------------
+  | byte |   type    |   name    | values |
+  -----------------------------------------
+  |   0  |  uint8_t  |  header   |  0xff  |
+  -----------------------------------------
+  |   1  |  uint8_t  |    id     |  0-255 |
+  -----------------------------------------
+  |  2-n | see specs |   data    |  any   |
+  -----------------------------------------
+  |  n+1 |  uint8_t  | checksum  |  any   |
+  -----------------------------------------
+  |  n+2 |  uint8_t  |  footer   |  0xff  |
+  -----------------------------------------
+   
+  2 <= n <= 253
+
+Data specifications are as follows
+
+Ok
+
+.. code-block::
+  -----------------------------------------
+  | byte |   type    |   name    | values |
+  -----------------------------------------
+  ------------------NONE-------------------
+  -----------------------------------------
+
+Error
+
+.. code-block::
+  -----------------------------------------
+  | byte |   type    |   name    | values |
+  -----------------------------------------
+  |   0  |  uint8_t  |   type    |  0-255 |
+  -----------------------------------------
+
 Thruster config
 ---------------
-This is the configuration we use. It is based on the `ArduSub Vectored ROV w/ Four Vertical Thrusters.<https://www.ardusub.com/introduction/features.html>`_
+This is the configuration we use. It is based on the `ArduSub Vectored ROV with Four Vertical Thrusters. <https://www.ardusub.com/introduction/features.html>`_
 
 .. image:: images/vectored6dof-frame.png
   :width: 400
@@ -54,13 +135,14 @@ The following matrix represents the configuration of the thrusters.
 The columns are the individual thrusters, while the rows are the directions.
 
 .. code-block::
-       1  2  3  4  5  6  7  8
-  x
-  y
-  z
-  roll
-  pitch
-  yaw
+
+  -------1  2  3  4  5  6  7  8
+  x     |
+  y     |
+  z     |
+  roll  |
+  pitch |
+  yaw   |
 
   const float thruster_config[6][8] = {
     {  1.0,  1.0, -1.0, -1.0,  0.0,  0.0,  0.0,  0.0  },
@@ -72,8 +154,6 @@ The columns are the individual thrusters, while the rows are the directions.
   };
 
 To calculate the power value for thruster 5 going in the z direction (ascend/descend) at a power value p, we multiply p by the value in the 3rd row, 5th column.
-
-
 
 Calibrating
 -----------
