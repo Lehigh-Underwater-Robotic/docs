@@ -1,6 +1,7 @@
 Computer Vision
 ===============
 
+.. _ROS node:
 .. _OpenCV:
 .. _YOLO:
 
