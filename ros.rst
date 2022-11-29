@@ -32,6 +32,7 @@ Creating ROS packages
     
       // install all required dependencies
     $ rosdep install -i --from-path src --rosdistro foxy -y
+
       // install required dependencies for specific package
     $ rosdep install -i --from-path src/{PKG_DIR} --rosdistro foxy -y
 
@@ -67,13 +68,17 @@ Running
 .. code:: 
 
     // start mavros
-    ros2 launch launch_files/mavros.yaml
+    $ ros2 launch launch_files/mavros.yaml
+
     // change mode to stabilize
-    ros2 run mavros mav sys mode -c STABILIZE
+    $ ros2 run mavros mav sys mode -c STABILIZE
+
     // arm drone
-    ros2 run mavros mav safety arm
+    $ ros2 run mavros mav safety arm
+
     // starts brain, camera
-    ros2 launch launch_files/main.yaml
+    $ ros2 launch launch_files/main.yaml
+
     // reads 'man_test.txt', publishes to brain
     // which then publishes to manual control
-    ros2 launch launch_files/test.yaml
+    $ ros2 launch launch_files/test.yaml
