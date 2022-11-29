@@ -10,12 +10,12 @@ ROS
 Required packages
 -----------------
 
-OpenCV (refer to `OpenCV section <https://lehigh-underwater-robotics.readthedocs.io/en/latest/computer_vision.html#yolo>`_ of docs)
-ROS Foxy `(sudo apt install ros-foxy-ros-base python3-argcomplete) <https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html#>`_
-Colcon (sudo apt install python3-colcon-common-extensions)
-rosdep (sudo apt install python3-rosdep)
+* OpenCV (refer to `OpenCV section <https://lehigh-underwater-robotics.readthedocs.io/en/latest/computer_vision.html#yolo>`_ of docs)
+* ROS Foxy `(sudo apt install ros-foxy-ros-base python3-argcomplete) <https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html#>`_
+* Colcon (sudo apt install python3-colcon-common-extensions)
+* rosdep (sudo apt install python3-rosdep)
 
-If unable to communicate with devices
+If unable to communicate with devices:
 
 .. code::
 
@@ -39,13 +39,13 @@ Creating ROS packages
 Connecting to the Jetson
 ------------------------
 
-.. note::
-
-    You must be connected to the same network as the Jetson.
-
 .. code::
 
    $ ssh lur@192.168.1.122
+
+.. note::
+
+    You must be connected to the same network as the Jetson.
 
 Building
 --------
@@ -72,8 +72,8 @@ Running
     ros2 run mavros mav sys mode -c STABILIZE
     // arm drone
     ros2 run mavros mav safety arm
-    // starts brain and camera
+    // starts brain, camera
     ros2 launch launch_files/main.yaml
-    // reads in 'man_test.txt' and publishes to brain
+    // reads 'man_test.txt', publishes to brain
     // which then publishes to manual control
     ros2 launch launch_files/test.yaml
