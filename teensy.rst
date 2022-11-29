@@ -20,6 +20,7 @@ Arduino library
   └── messages.h
 
 The following objects are implemented
+
 * Sub     - Main control. Handles all other objects.
 * Jetson  - Serial communication interface with Jetson.
 * Motors  - Contains 8 servo objects that are the motors
