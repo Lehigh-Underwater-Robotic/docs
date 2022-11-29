@@ -1,7 +1,6 @@
 Computer Vision
 ===============
 
-.. _ROS node:
 .. _OpenCV:
 .. _YOLO:
 
@@ -9,7 +8,8 @@ OpenCV
 ------
 `OpenCV <https://opencv.org/>`_
 
-Open a VideoCapture object for each camera and read the frame data into a Mat object
+OpenCV is preinstalled on the Jetson but if you have trouble with the installation find the documentation here:
+`Basic installation <https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html>`_
 
 .. note::
 

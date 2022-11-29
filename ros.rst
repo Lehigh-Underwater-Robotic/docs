@@ -6,12 +6,10 @@ ROS
 Required packages
 -----------------
 
-.. code::
-
-    OpenCV (refer to OpenCV section of docs)
-    ROS Foxy `(sudo apt install ros-foxy-ros-base python3-argcomplete)<https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html#>`_
-    Colcon (sudo apt install python3-colcon-common-extensions)
-    rosdep (sudo apt install python3-rosdep)
+OpenCV (refer to `OpenCV section<https://lehigh-underwater-robotics.readthedocs.io/en/latest/computer_vision.html#yolo>`_ of docs)
+ROS Foxy `(sudo apt install ros-foxy-ros-base python3-argcomplete)<https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html#>`_
+Colcon (sudo apt install python3-colcon-common-extensions)
+rosdep (sudo apt install python3-rosdep)
 
 If unable to communicate with devices
 
